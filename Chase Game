@@ -1,0 +1,122 @@
+#Imports
+import pygame
+import math
+import tkinter as tk
+from tkinter import messagebox
+
+#Decrease for higher difficulty
+global height, width, player_speed
+error = True
+while error:
+    try:
+        height = int(input("What do you want your height of your screen to be(the smaller the harder)?"))
+        if height < 1001:
+            if height > 0:
+                error = False
+            else:
+                print("Height is too small")
+        else:
+            print("Height is too tall")
+    except ValueError:
+        print("Number needs to be a whole number, not a decimal")
+error = True
+while error:
+    try:
+        width = int(input("What do you want your width of your screen to be(the smaller the harder)?"))
+        if width < 1001:
+            if width > 0:
+                error = False
+            else:
+                print("Width is too small")
+        else:
+            print("Width is too long")
+    except ValueError:
+        print("Number needs to be a whole number, not a decimal")
+error = True
+while error:
+    try:
+        player_speed = float(input("How fast do you want to move(the smaller the harder)?"))
+        if player_speed < 21:
+            if not player_speed > 0:
+                print("Player's speed is too small")
+            else:
+                error = False
+        else:
+            print("Player's speed is too fast")
+    except ValueError:
+        print("Input needs to be a number")
+
+#Set up screen
+pygame.init()
+screen = pygame.display.set_mode((width, height))
+pygame.display.set_caption("CHASE")
+
+#Define functions
+def isCollision():
+    distance = math.sqrt(math.pow(player_1["x"] - enemy["x"], 2) + math.pow(player_1["y"] - enemy["y"], 2))
+    if distance < 42:
+        return True
+    else:
+        return False
+
+
+def message_box(subject, content):
+    root = tk.Tk()
+    root.attributes("-topmost", True)
+    root.withdraw()
+    messagebox.showinfo(subject, content)
+    try:
+        root.destroy()
+    except:
+        pass
+
+
+#Main
+close = False
+while not close:
+    player_1 = {"x": 0, "y": 0, "size": 33, "points": 1}
+    enemy = {"x": width - 33, "y": height - 33, "size": 33}
+    run = True
+    leave = True
+    while run:
+        for repeat in range(60):
+            pygame.time.delay(15)
+            for event in pygame.event.get():
+                if event.type == pygame.QUIT:
+                    run = False
+                    leave = False
+            if not leave or not run:
+                break
+            keys = pygame.key.get_pressed()
+            if keys[pygame.K_d] and not player_1["x"] > width - player_1["size"] - 1:
+                player_1["x"] += player_speed
+            if keys[pygame.K_a] and not player_1["x"] < 0:
+                player_1["x"] -= player_speed
+            if keys[pygame.K_s] and not player_1["y"] > height - player_1["size"] - 1:
+                player_1["y"] += player_speed
+            if keys[pygame.K_w] and not player_1["y"] < 0:
+                player_1["y"] -= player_speed
+            if isCollision():
+                run = False
+            if player_1["x"] > enemy["x"]:
+                enemy["x"] += 1
+            if player_1["x"] < enemy["x"]:
+                enemy["x"] -= 1
+            if player_1["y"] > enemy["y"]:
+                enemy["y"] += 1
+            if player_1["y"] < enemy["y"]:
+                enemy["y"] -= 1
+            screen.fill((0, 0, 0))
+            pygame.draw.rect(screen, (255, 0, 0), (player_1["x"], player_1["y"], player_1["size"], player_1["size"]))
+            pygame.draw.rect(screen, (0, 0, 255), (enemy["x"], enemy["y"], enemy["size"], enemy["size"]))
+            pygame.display.update()
+        if run:
+            player_1["points"] += 1
+        else:
+            break
+
+    message_box("You lost...", "Your score was %s" % round(
+        ((player_1["points"] + 2400) * (1001 - width) * (1001 - height) * ((21 - player_speed) * 2.5)) / 6000))
+    if not leave:
+        close = True
+        pygame.quit()
