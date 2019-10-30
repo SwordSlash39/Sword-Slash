@@ -1,0 +1,11 @@
+num1 = 1
+num2 = 0
+num3 = 0
+numbers = int(input("How many numbers of the fibonacci sequence do you want me to recite?"))
+for fib in range(numbers):
+    print(num1, end="")
+    if not fib == numbers - 1:
+        print(",", end="")
+    num3 = num2
+    num2 = num1
+    num1 = num2 + num3
