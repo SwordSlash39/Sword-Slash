@@ -1,0 +1,16 @@
+start = 0
+end = 3200
+num = 0
+guess = start + 1
+for i in range(end - start):
+    if guess % 7 == 0 and not guess % 5 == 0:
+        num += 1
+        print(guess, end="")
+        if not i == end - (start + 1):
+            print(", ", end="")
+        guess += 1
+    else:
+        guess += 1
+print("")
+print("There are", num, "amount of numbers", "from", start, "to", end,
+      "that are divisible by 7 but are not divisible by 5.")
