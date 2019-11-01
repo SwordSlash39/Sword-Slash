@@ -1,0 +1,126 @@
+import turtle
+import random
+import math
+import time
+global score_1, score_2, ai_mode
+
+#Set to 1 for ai mode
+try:
+    ai_mode = int(input("Do you want to activate A.I mode(1 for yes, 0 for no)?"))
+    if not ai_mode == 2 and not ai_mode == 1:
+        print("I take that answer as a no")
+except ValueError:
+    print("I take that answer as a no")
+
+#Screen
+screen = turtle.Screen()
+screen.bgcolor("lightgreen")
+screen.tracer(2)
+
+border = turtle.Turtle()
+border.color("black")
+border.shape("triangle")
+border.penup()
+border.setposition(-400, 350)
+border.pendown()
+border.pensize(4)
+for side in range(2):
+    border.forward(800)
+    border.right(90)
+    border.forward(700)
+    border.right(90)
+border.hideturtle()
+
+score = turtle.Turtle()
+score.color("black")
+score.shape("triangle")
+score.penup()
+score.setposition(-300, 375)
+score.hideturtle()
+score_1 = 0
+score_2 = 0
+score.write(str(score_1) + "-" + str(score_2), False, font=("Arial", 12, "normal"))
+
+p1 = turtle.Turtle()
+p1.color("blue")
+p1.shape("square")
+p1.penup()
+p1.setposition(-300, 0)
+p1.turtlesize(2.5)
+
+p2 = turtle.Turtle()
+p2.color("blue")
+p2.shape("square")
+p2.penup()
+p2.setposition(300, 0)
+p2.turtlesize(2.5)
+
+ball = turtle.Turtle()
+ball.color("black")
+ball.shape("circle")
+ball.penup()
+ball.setposition(0, 0)
+ball.setheading(random.randint(-90, 90))
+
+
+def move_up_1():
+    if not p1.ycor() == 336:
+        p1.setposition(p1.xcor(), p1.ycor() + 24)
+
+
+def move_down_1():
+    if not p1.ycor() == -336:
+        p1.setposition(p1.xcor(), p1.ycor() - 24)
+
+
+def move_up_2():
+    if not p2.ycor() == 336:
+        p2.setposition(p2.xcor(), p2.ycor() + 24)
+
+
+def move_down_2():
+    if not p2.ycor() == -336:
+        p2.setposition(p2.xcor(), p2.ycor() - 24)
+
+
+def resetPos():
+    p1.setposition(-300, 0)
+    p2.setposition(300, 0)
+    ball.setposition(0, 0)
+    ball.setheading(random.randint(1, 360))
+
+
+turtle.listen()
+turtle.onkey(move_up_1, "w")
+turtle.onkey(move_down_1, "s")
+if not ai_mode == 1:
+    turtle.onkey(move_up_2, "Up")
+    turtle.onkey(move_down_2, "Down")
+
+while True:
+    for i in range(9): #decrease for faster A.I.(range(1) makes it invincible)
+        time.sleep(0.025)
+        ball.forward(5)
+        if math.sqrt(math.pow(p1.xcor() - ball.xcor(), 2) + math.pow(p1.ycor() - ball.ycor(), 2)) < 40 or math.sqrt(math.pow(p2.xcor() - ball.xcor(), 2) + math.pow(p2.ycor() - ball.ycor(), 2)) < 40 or ball.xcor() > 400 or ball.xcor() < -400 or ball.ycor() > 350 or ball.ycor() < -350:
+            if not ball.xcor() > 400 and not ball.xcor() < -400:
+                ball.right(random.randint(45, 135))
+                ball.forward(5)
+            else:
+                if ball.xcor() > 400:
+                    score_1 += 1
+                else:
+                    score_2 += 1
+                score.clear()
+                score.write(str(score_1) + "-" + str(score_2), False, font=("Arial", 12, "normal"))
+                resetPos()
+    if ai_mode == 1:
+        if ball.ycor() - p2.ycor() < 25 and ball.ycor() - p2.ycor() > -25:
+            if ball.ycor() - p2.ycor() > 0:
+                p2.setposition(p2.xcor(), p2.ycor() + 24)
+            else:
+                p2.setposition(p2.xcor(), p2.ycor() - 24)
+        else:
+            if ball.ycor() - p2.ycor() > 25 and ball.ycor() - p2.ycor() > -25:
+                p2.setposition(p2.xcor(), p2.ycor() + 24)
+            else:
+                p2.setposition(p2.xcor(), p2.ycor() - 24)
