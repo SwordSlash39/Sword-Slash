@@ -2,15 +2,11 @@ import turtle
 import random
 import math
 import time
-global score_1, score_2, ai_mode
+global score_1, score_2
+global ai_mode
 
-#Set to 1 for ai mode
-try:
-    ai_mode = int(input("Do you want to activate A.I mode(1 for yes, 0 for no)?"))
-    if not ai_mode == 2 and not ai_mode == 1:
-        print("I take that answer as a no")
-except ValueError:
-    print("I take that answer as a no")
+#Set to 1 for 1 player to be A.I, set to 2 for both players to be A.I
+ai_mode = 1
 
 #Screen
 screen = turtle.Screen()
@@ -91,8 +87,9 @@ def resetPos():
 
 
 turtle.listen()
-turtle.onkey(move_up_1, "w")
-turtle.onkey(move_down_1, "s")
+if not ai_mode == 2:
+    turtle.onkey(move_up_1, "w")
+    turtle.onkey(move_down_1, "s")
 if not ai_mode == 1:
     turtle.onkey(move_up_2, "Up")
     turtle.onkey(move_down_2, "Down")
@@ -113,7 +110,7 @@ while True:
                 score.clear()
                 score.write(str(score_1) + "-" + str(score_2), False, font=("Arial", 12, "normal"))
                 resetPos()
-    if ai_mode == 1:
+    if ai_mode == 1 or ai_mode == 2:
         if ball.ycor() - p2.ycor() < 25 and ball.ycor() - p2.ycor() > -25:
             if ball.ycor() - p2.ycor() > 0:
                 p2.setposition(p2.xcor(), p2.ycor() + 24)
@@ -124,3 +121,14 @@ while True:
                 p2.setposition(p2.xcor(), p2.ycor() + 24)
             else:
                 p2.setposition(p2.xcor(), p2.ycor() - 24)
+    if ai_mode == 2:
+        if ball.ycor() - p1.ycor() < 25 and ball.ycor() - p1.ycor() > -25:
+            if ball.ycor() - p1.ycor() > 0:
+                p1.setposition(p1.xcor(), p1.ycor() + 24)
+            else:
+                p1.setposition(p1.xcor(), p1.ycor() - 24)
+        else:
+            if ball.ycor() - p1.ycor() > 25 and ball.ycor() - p1.ycor() > -25:
+                p1.setposition(p1.xcor(), p1.ycor() + 24)
+            else:
+                p1.setposition(p1.xcor(), p1.ycor() - 24)
