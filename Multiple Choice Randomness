@@ -1,24 +1,28 @@
+#Imports
 import random
 
 
+#Classes
 class Question:
     def __init__(self, ask, answer, score):
         self.ask = ask
         self.answer = answer
         self.output = input(self.ask)
         self.score = score
-        if self.output == self.answer:
+        if self.output.lower() == self.answer.lower():
             self.score += 1
 
 
 #Add more question and answers to the 2 lists if you want
 qn = ["How are you?", "What is 1 + 1?", "How big are you?", "How old are you?", "What is the square root of eight?",
-      "Where are you from?"]
-ans = ["i'm fine", "2", "very big", "50", "a number", "Singapore"]
+      "Where are you from?", "Can birds fly?"]
+ans = ["i'm fine", "2", "very big", "50", "a number", "Singapore", "Malaysia", "USA", "yes", "no", "can't tell you",
+       "What???"]
 
 #Set-up
 point = 0
 qn_len = 0
+print("There are " + str(len(qn)) + " questions and " + str(len(ans)) + " options")
 for q in qn:
     qn_len += 1
 ans_len = 0
@@ -27,9 +31,9 @@ for a in ans:
 print("Your options are: ", end="")
 for an in range(ans_len):
     if not an == ans_len - 1:
-        print(ans[an], end=", ")
+        print("'" + str(ans[an]) + "'", end=", ")
     else:
-        print(ans[an])
+        print("'" + str(ans[an]) + "'")
 
 #Main loop
 while True:
@@ -41,4 +45,4 @@ while True:
         else:
             print("You got that correct! You now have " + str(point) + " point!")
     else:
-        print("You got that wrong... the answer was " + q1.answer)
+        print("You got that wrong... the answer was '" + str(q1.answer) + "'")
