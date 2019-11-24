@@ -1,0 +1,15 @@
+dictionaries = []
+while True:
+    string = input("Enter a string: ")
+    if not string == "show(info, letterCount)":
+        letterCount = {}
+        for i in range(len(string)):
+            try:
+                letterCount[string[i]] += 1
+            except KeyError:
+                letterCount[string[i]] = 1
+        print(letterCount)
+        dictionaries.append(letterCount)
+    else:
+        for i in range(len(dictionaries)):
+            print(str(i + 1) + ". " + str(dictionaries[i]))
