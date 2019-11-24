@@ -1,0 +1,12 @@
+def factorial(x):
+    if x == 0:
+        return 1
+    else:
+        ans = 1
+        for multi in range(x):
+            ans = ans * (multi + 1)
+            print(multi)
+        return ans
+
+
+print(factorial(int(input("Enter number that is going to be factorise:"))))
