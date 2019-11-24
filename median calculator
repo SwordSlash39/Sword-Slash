@@ -1,0 +1,45 @@
+median_cal = []
+error = True
+while error:
+    try:
+        median_cal.append(float(input("Enter number:")))
+        error = False
+    except ValueError:
+        print("-Invalid-")
+while True:
+    global add
+    try:
+        add = input("Enter number(type 'quit()' to quit):")
+        add = float(add)
+        median_cal.append(add)
+    except ValueError:
+        if add == "quit()":
+            break
+        else:
+            print("-Invalid-")
+
+
+def cal_median(list_name):
+    def sort(list_find):
+        list_sort = list_find
+        sort_ans = []
+        for i in range(len(list_sort)):
+            smallest = 99999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999999
+            for find in list_sort:
+                if find < smallest:
+                    smallest = find
+            for locate in range(len(list_sort)):
+                if list_sort[locate] == smallest:
+                    sort_ans.append(list_sort[locate])
+                    list_sort.pop(locate)
+                    break
+        return sort_ans
+    ans = list_name
+    ans = sort(ans)
+    if len(ans) % 2 == 0:
+        return (ans[round(((len(ans) + 1) / 2) - 1.5)] + ans[round((((len(ans) + 1) / 2) - 1.5) + 1)]) / 2
+    else:
+        return ans[round((len(ans) + 1) / 2) - 1]
+
+
+print(cal_median(median_cal))
